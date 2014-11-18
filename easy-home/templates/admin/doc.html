@@ -1,0 +1,2633 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+
+<meta charset="utf-8" />
+
+<title>EasyHome | 文档</title>
+
+<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+<meta content="" name="description" />
+
+<meta content="" name="author" />
+
+<!-- BEGIN GLOBAL MANDATORY STYLES -->
+
+<link th:href="@{/media/css/bootstrap.min.css}" rel="stylesheet"
+	type="text/css" />
+
+<link th:href="@{/media/css/bootstrap-responsive.min.css}"
+	rel="stylesheet" type="text/css" />
+
+<link th:href="@{/media/css/font-awesome.min.css}" rel="stylesheet"
+	type="text/css" />
+
+<link th:href="@{/media/css/style-metro.css}" rel="stylesheet"
+	type="text/css" />
+
+<link th:href="@{/media/css/style.css}" rel="stylesheet" type="text/css" />
+
+<link th:href="@{/media/css/style-responsive.css}" rel="stylesheet"
+	type="text/css" />
+
+<link th:href="@{/media/css/default.css}" rel="stylesheet"
+	type="text/css" id="style_color" />
+
+<link th:href="@{/media/css/uniform.default.css}" rel="stylesheet"
+	type="text/css" />
+
+<link th:href="@{/media/css/patch.css}" rel="stylesheet" />
+
+<!-- Documentation extras -->
+<link th:href="@{/media/css/docs.min.css}" rel="stylesheet" />
+<!--[if lt IE 9]><script src="../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+<script th:href="@{/media/js/ie-emulation-modes-warning.js}"></script>
+
+<link rel="shortcut icon" th:href="@{/media/image/favicon.ico}" />
+
+</head>
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+
+<body class="page-header-fixed page-full-width">
+
+	<!-- BEGIN HEADER -->
+
+	<div th:replace="fragments/nav :: nav (current='doc', sub='')"></div>
+
+	<!-- END HEADER -->
+	<!-- BEGIN CONTAINER -->
+
+	<div class="page-container row-fluid"
+		style="background: #fff !important">
+
+		<!-- BEGIN EMPTY PAGE SIDEBAR -->
+
+		<div th:replace="fragments/nav :: sidebar (current='doc', sub='')"></div>
+
+		<!-- END EMPTY PAGE SIDEBAR -->
+
+		<!-- BEGIN PAGE -->
+		<div class="container bs-docs-container">
+			<div class="row">
+				<div class="span9" role="main">
+
+					<div class="bs-docs-section">
+						<h1 id="app" class="page-header">com.h2c.app</h1>
+
+						<p class="lead" style="text-indent: 2em;">
+							主要是Token安全访问机制，云端分配AppKey及AppSecret到App(请求端)，App使用AppKey及AppSecret刷新Token以正常访问Api。
+						</p>
+						<div class="bs-callout bs-callout-danger">
+							<h4>使用Token调用Api</h4>
+						    <p>注意这里的所有api都必须带上请求参数token，在下面的接口说明中不再列举，如果token非法会返回<code>error=100</code>错误；</p>
+						</div>
+						<p class="lead" style="text-indent: 2em;">
+							<b>URL:</b> <a>/app/api</a>
+						</p>
+
+						<h3 id="app-refreshToken">com.h2c.app.refreshToken</h3>
+						<p style="text-indent: 2em;">刷新Token，Token默认有效期为600秒，超过有效期的token无法用于调用api，需要再次刷新之后方可使用。</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="4">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.app.refreshToken</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									<tr>
+										<td>appId</td>
+										<td>41los2nfo1209af29slf9fsd</td>
+										<td>required</td>
+										<td>AppId(必须使用Base64编码)</td>
+									</tr>
+									<tr>
+										<td>encrypt</td>
+										<td>true | false</td>
+										<td>required</td>
+										<td>是否使用加密(Base64编码之后进行AES加密, appSecret作为key)</td>
+									</tr>
+									<tr>
+										<td rowspan="3">返回结果</td>
+										<td>success</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.app.refreshToken,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 0,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;token:
+												8jsdf23alp1p209afljlfwsdx2,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;expires_in:
+												600<br /> }
+											</p></td>
+										<td>返回新的Token，同时包括有效期</td>
+									</tr>
+									<tr>
+										<td>error_-1</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.app.refreshToken,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: -1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg:
+												AppId解密失败：Exception<br /> }
+											</p></td>
+										<td>解密AppId出现异常，请检查加密算法是否有误</td>
+									</tr>
+									<tr>
+										<td>error_1</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.app.refreshToken,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg:
+												AppId无效<br /> }
+											</p></td>
+										<td>如果是非法的AppId则返回该错误</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+					</div>
+					<div class="bs-docs-section">
+						<h1 id="homekit" class="page-header">com.h2c.homekit</h1>
+
+						<p class="lead" style="text-indent: 2em;">
+							智能设备云端服务接口，提供命令获取、状态更新等功能。</p>
+						<p class="lead" style="text-indent: 2em;">
+							<b>URL:</b> <a>/homekit/api</a>
+						</p>
+
+						<h3 id="homekit-getCommand">com.h2c.homekit.getCommand&nbsp;&nbsp;&nbsp;(<b>GET</b>)</h3>
+						<p style="text-indent: 2em;">获取智能设备的执行指令，该接口应该由智能设备调用。</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="10">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.homekit.getCommand</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									<tr>
+										<td>token</td>
+										<td>io9823jks87sdfn2sdfadf4erdfsdadf23es</td>
+										<td>required</td>
+										<td>Token（<i>com.h2c.app.refreshToken</i>）</td>
+									</tr>
+									<tr>
+										<td>mac</td>
+										<td>11:22:33:44:55:66</td>
+										<td>required</td>
+										<td>智能设备物理地址</td>
+									</tr>
+									<tr>
+										<td>type</td>
+										<td>AirBox | IrBox</td>
+										<td>required</td>
+										<td>智能设备类型，目前只有两种</td>
+									</tr>
+									<tr>
+										<td>identifier</td>
+										<td>空气盒子 | 智能遥控 | ...</td>
+										<td>required</td>
+										<td>智能设备名称</td>
+									</tr>
+									<tr>
+										<td>firm</td>
+										<td>2.0.6 | ...</td>
+										<td>optional</td>
+										<td>当前固件版本</td>
+									</tr>
+									<tr>
+										<td>acl</td>
+										<td>{admins:[1], users:[2,3]}</td>
+										<td>optional</td>
+										<td>访问控制列表内容，使用JSON格式</td>
+									</tr>
+									<tr>
+										<td>state</td>
+										<td>{temperature:26, humidity:86, pm25:220, illuminance:23, voc:12.8}</td>
+										<td>optional</td>
+										<td>设备状态数据，使用JSON格式</td>
+									</tr>
+									<tr>
+										<td>result</td>
+										<td>0(success) | ERR_CODE</td>
+										<td>optional</td>
+										<td>上次命令执行结果</td>
+									</tr>
+									<tr>
+										<td rowspan="6">返回结果</td>
+										<td>success_1</td>
+										<td colspan="2">0x00...</td>
+										<td>返回指令数据，以0x00引导</td>
+									</tr>
+									<tr>
+										<td>success_2</td>
+										<td colspan="2">0xF0</td>
+										<td>请求超时（无指令需要执行）</td>
+									</tr>
+									<tr>
+										<td>error_1</td>
+										<td colspan="2">0xE0</td>
+										<td>Token无效，可能是非法Token或Token已过期</td>
+									</tr>
+									<tr>
+										<td>error_2</td>
+										<td colspan="2">0xE1</td>
+										<td>Indentifier解析失败，请使用UTF-8编码，通过hex传输</td>
+									</tr>
+									<tr>
+										<td>error_3</td>
+										<td colspan="2">0xE2</td>
+										<td>Acl解析失败，请使用JSONObject格式</td>
+									</tr>
+									<tr>
+										<td>error_4</td>
+										<td colspan="2">0xE3</td>
+										<td>State解析失败，请使用JSONObject格式</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<h3 id="homekit-postCommand">com.h2c.homekit.postCommand&nbsp;&nbsp;&nbsp;(<b>POST</b>)</h3>
+						<p style="text-indent:2em;">发送指令到智能设备，由App（来自远程调用）或云平台调用（来自定时计划或情景模式），该接口使用OAuth2.0授权</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="6">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.homekit.postCommand</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									<tr>
+										<td>userId</td>
+										<td>10086 | ...</td>
+										<td>required</td>
+										<td>用户ID（Long型数据）</td>
+									</tr>
+									<tr>
+										<td>mac</td>
+										<td>11:22:33:44:55:66</td>
+										<td>required</td>
+										<td>智能设备物理地址</td>
+									</tr>
+									<tr>
+										<td>state</td>
+										<td>{boxId:2, company:"Gree", model:"HE-23", temperature:27, mode:2, wind:3}</td>
+										<td>optional</td>
+										<td>状态信息，目前只用于空调状态的同步</td>
+									</tr>
+									<tr>
+										<td>data</td>
+										<td>E290432AB2331D...</td>
+										<td>required</td>
+										<td>指令数据，使用hex格式</td>
+									</tr>
+									<tr>
+										<td rowspan="4">返回结果</td>
+										<td>success</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.homekit.postCommand,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 0,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;success:true|false
+												<br /> }
+											</p></td>
+										<td>success表示指令执行是否成功</td>
+									</tr>
+									<tr>
+										<td>error_1</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.homekit.postCommand,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg:
+												找不到对应记录<br /> }
+											</p></td>
+										<td>请检查mac地址是否正确</td>
+									</tr>
+									<tr>
+										<td>error_2</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.homekit.postCommand,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 2,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg:
+												请求超时<br /> }
+											</p></td>
+										<td>超时，可能智能设备已断开云端连接</td>
+									</tr>
+									<tr>
+										<td>error_3</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.homekit.postCommand,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 3,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg:
+												发送命令失败<br /> }
+											</p></td>
+										<td>服务器发生异常，无法推送指令</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<h3 id="homekit-checkStatus">com.h2c.homekit.checkStatus&nbsp;&nbsp;&nbsp;(<b>GET</b>)</h3>
+						<p style="text-indent:2em;">检查智能设备状态是否在线</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="4">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.homekit.checkStatus</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									<tr>
+										<td>userId</td>
+										<td>10086 |...</td>
+										<td>required</td>
+										<td>用户ID</td>
+									</tr>
+									<tr>
+										<td>macs</td>
+										<td>11:22:33:44:55:66,32:12:43:64:12:56,...</td>
+										<td>required</td>
+										<td>智能设备物理地址列表，使用','分隔</td>
+									</tr>
+									<tr>
+										<td >返回结果</td>
+										<td>success</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.homekit.checkStatus,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 0,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data: [<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;online:true | false<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;auth: -1(无记录) | 0(无权限) | 1(管理员) | 2(普通用户)<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br />
+												<br /> }
+											</p></td>
+										<td>返回结果顺序和macs顺序保持一致</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<h3 id="homekit-getDetail">com.h2c.homekit.getDetail&nbsp;&nbsp;&nbsp;(<b>GET</b>)</h3>
+						<p style="text-indent:2em;">获取智能设备详细信息</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="3">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.homekit.getDetail</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									<tr>
+										<td>mac</td>
+										<td>11:22:33:44:55:66</td>
+										<td>required</td>
+										<td>智能设备物理地址</td>
+									</tr>
+									<tr>
+										<td rowspan="2">返回结果</td>
+										<td>success</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.homekit.getDetail,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 0,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;firmware: <br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;current:2.0.6,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;latest:2.0.7,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;note:最新版本注释,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;admins: <br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;userId: 2<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nick: admin<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;],<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;users: <br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;userId: 3<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nick: user1<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;userId: 4<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nick: user2<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;],<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;requests: <br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;userId: 5<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nick: user5<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;],<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;update: <br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;updating: true | false<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finished: true | false<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;progress: 0.0~1.0(浮点数)<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result: true | false<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br />
+												<br /> }
+											</p></td>
+										<td>admins: 管理员列表；<br />users: 普通用户列表；<br />requests: 申请用户列表；<br />update: 固件更新状态</td>
+									</tr>
+									<tr>
+										<td>error_1</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.homekit.checkStatus,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 找不到对应记录<br /> }
+											</p></td>
+										<td>根据mac无法找到智能设备记录，请检查是否正确</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<h3 id="homekit-getUpdate">com.h2c.homekit.getUpdate&nbsp;&nbsp;&nbsp;(<b>GET</b>)</h3>
+						<p style="text-indent:2em;">获取智能设备固件更新状态</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="3">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.homekit.getUpdate</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									<tr>
+										<td>mac</td>
+										<td>11:22:33:44:55:66</td>
+										<td>required</td>
+										<td>智能设备物理地址</td>
+									</tr>
+									<tr>
+										<td rowspan="2">返回结果</td>
+										<td>success</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.homekit.getUpdate,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 0,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;updating: true | false<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finished: true | false<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;progress: 0.0~1.0(浮点数)<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result: true | false<br />
+												<br /> }
+											</p></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>error_1</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.homekit.getUpdate,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 找不到对应记录<br /> }
+											</p></td>
+										<td>根据mac无法找到智能设备记录，请检查是否正确</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<h3 id="homekit-updateFirm">com.h2c.homekit.updateFirm&nbsp;&nbsp;&nbsp;(<b>POST</b>)</h3>
+						<p style="text-indent:2em;">触发智能设备更新固件</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="5">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.homekit.updateFirm</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									<tr>
+										<td>mac</td>
+										<td>11:22:33:44:55:66</td>
+										<td>required</td>
+										<td>智能设备物理地址</td>
+									</tr>
+									<tr>
+										<td>version</td>
+										<td>2.0.6</td>
+										<td>required</td>
+										<td>新的固件版本号</td>
+									</tr>
+									<tr>
+										<td>userId</td>
+										<td>10086 | ...</td>
+										<td>required</td>
+										<td>发起用户ID</td>
+									</tr>
+									<tr>
+										<td rowspan="3">返回结果</td>
+										<td>success</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.homekit.updateFirm,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 0,<br />
+												<br /> }
+											</p></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>error_1</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.homekit.updateFirm,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 找不到对应记录<br /> }
+											</p></td>
+										<td>根据mac无法找到智能设备记录，请检查是否正确</td>
+									</tr>
+									<tr>
+										<td>error_2</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.homekit.updateFirm,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 2,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 已启动更新<br /> }
+											</p></td>
+										<td>更新过程中，无需重复启动</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<h3 id="homekit-updateState">com.h2c.homekit.updateState&nbsp;&nbsp;&nbsp;(<b>POST</b>)</h3>
+						<p style="text-indent:2em;">更新智能设备所属家电状态</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="4">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.homekit.updateState</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									<tr>
+										<td>mac</td>
+										<td>11:22:33:44:55:66</td>
+										<td>required</td>
+										<td>智能设备物理地址</td>
+									</tr>
+									<tr>
+										<td>state</td>
+										<td>{boxId:2, company:"Gree", model:"HE-23", temperature:27, mode:2, wind:3}</td>
+										<td>required</td>
+										<td>状态信息，目前只用于空调设备</td>
+									</tr>
+									<tr>
+										<td rowspan="3">返回结果</td>
+										<td>success</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.homekit.updateFirm,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 0,<br />
+												<br /> }
+											</p></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>error_1</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.homekit.updateFirm,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 找不到对应记录<br /> }
+											</p></td>
+										<td>根据mac无法找到智能设备记录，请检查是否正确</td>
+									</tr>
+									<tr>
+										<td>error_2</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.homekit.updateFirm,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 2,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 无法解析状态<br /> }
+											</p></td>
+										<td>State请使用正确的JSONObject格式</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						
+						<h3 id="homekit-checkAuth">com.h2c.homekit.checkAuth&nbsp;&nbsp;&nbsp;(<b>GET</b>)</h3>
+						<p style="text-indent:2em;">检查是否有智能设备使用申请，接口使用长链接，如果没有申请，会在超时60s之后返回</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="4">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.homekit.checkAuth</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									<tr>
+										<td>userId</td>
+										<td>10086 | ...</td>
+										<td>required</td>
+										<td>用户ID</td>
+									</tr>
+									<tr>
+										<td>macs</td>
+										<td>11:22:33:44:55:66, 23:AD:33:83:DB:12, ...</td>
+										<td>required</td>
+										<td>智能设备物理地址列表，以','分隔</td>
+									</tr>
+									
+									<tr>
+										<td rowspan="2">返回结果</td>
+										<td>success_1</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.homekit.checkAuth,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 0,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;news: <br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mac: 11:22:33:44:55:66<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count: 3<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br />
+												<br /> }
+											</p></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>success_2</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.homekit.checkAuth,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 没有新的申请<br /> }
+											</p></td>
+										<td>如果一直没有新的申请，会在超时之后返回</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						
+						<h3 id="homekit-postAuth">com.h2c.homekit.postAuth&nbsp;&nbsp;&nbsp;(<b>POST</b>)</h3>
+						<p style="text-indent:2em;">提交智能设备使用申请</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="4">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.homekit.postAuth</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									<tr>
+										<td>userId</td>
+										<td>10086 | ...</td>
+										<td>required</td>
+										<td>用户ID</td>
+									</tr>
+									<tr>
+										<td>mac</td>
+										<td>11:22:33:44:55:66</td>
+										<td>required</td>
+										<td>智能设备物理地址</td>
+									</tr>
+									
+									<tr>
+										<td rowspan="5">返回结果</td>
+										<td>success</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.homekit.postAuth,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 0,<br />
+												<br /> }
+											</p></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>error_1</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.homekit.postAuth,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 无此用户<br /> }
+											</p></td>
+										<td>非法用户ID</td>
+									</tr>
+									<tr>
+										<td>error_2</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.homekit.postAuth,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 2,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 无此智能设备<br /> }
+											</p></td>
+										<td>请检查mac地址是否输入正确</td>
+									</tr>
+									<tr>
+										<td>error_3</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.homekit.postAuth,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 3,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 无管理员可处理<br /> }
+											</p></td>
+										<td>该智能设备管理员账号为空</td>
+									</tr>
+									<tr>
+										<td>error_4</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.homekit.postAuth,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 4,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 无此管理员用户<br /> }
+											</p></td>
+										<td>该智能设备管理员账号非法</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						
+						<h3 id="homekit-updateAuth">com.h2c.homekit.updateAuth&nbsp;&nbsp;&nbsp;(<b>POST</b>)</h3>
+						<p style="text-indent:2em;">处理智能设备使用申请，由智能设备管理员用户使用</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="5">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.homekit.updateAuth</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									<tr>
+										<td>userId</td>
+										<td>10086 | ...</td>
+										<td>required</td>
+										<td>管理用户ID</td>
+									</tr>
+									<tr>
+										<td>mac</td>
+										<td>12:34:56:78:90:23 | ...</td>
+										<td>required</td>
+										<td>智能设备物理地址</td>
+									</tr>
+									<tr>
+										<td>status</td>
+										<td>ACCEPT(3) | DENY(4)</td>
+										<td>required</td>
+										<td>执行何种操作</td>
+									</tr>
+									
+									<tr>
+										<td>返回结果</td>
+										<td>success</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.homekit.updateAuth,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 0,<br />
+												<br /> }
+											</p></td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						
+						<h1 id="user" class="page-header">com.h2c.user</h1>
+
+						<p class="lead" style="text-indent: 2em;">
+							用户访问接口，包括用户信息获取、更新用户信息、更新数据文件等
+						</p>
+						<p class="lead" style="text-indent: 2em;">
+							<b>URL:</b> <a>/user/api</a>
+						</p>
+						
+						<h3 id="user-register">com.h2c.user.register</h3>
+						<p style="text-indent:2em;">注册新用户</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="4">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.user.register</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									<tr>
+										<td>phone</td>
+										<td>18820797479</td>
+										<td>required</td>
+										<td>用户电话号码（本平台目前使用号码注册）</td>
+									</tr>
+									<tr>
+										<td>pass</td>
+										<td>7479</td>
+										<td>required</td>
+										<td>密码，默认应该是电话号码后4位</td>
+									</tr>
+									
+									<tr>
+										<td rowspan="4">返回结果</td>
+										<td>success</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.user.register,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 0,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;userId: 10086,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uid: 2d23sef34fesf2fsfwefw,<br />
+												<br /> }
+											</p></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>error_1</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.user.register,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 电话号码格式不正确<br /> }
+											</p></td>
+										<td>请检查电话号码是否输入正确</td>
+									</tr>
+									<tr>
+										<td>error_2</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.user.register,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 2,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 密码最少为4位<br /> }
+											</p></td>
+										<td>请检查新密码是否输入正确</td>
+									</tr>
+									<tr>
+										<td>error_3</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.user.register,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 3,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 电话号码已注册<br /> }
+											</p></td>
+										<td>该电话号码已经被注册了</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						
+						<h3 id="user-check">com.h2c.user.check</h3>
+						<p style="text-indent:2em;">检查用户信息</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="4">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.user.getDetail</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									<tr>
+										<td>phone</td>
+										<td>18820797479</td>
+										<td>required</td>
+										<td>用户电话号码（本平台目前使用号码注册）</td>
+									</tr>
+									<tr>
+										<td>pass</td>
+										<td>7479</td>
+										<td>required</td>
+										<td>密码，默认应该是电话号码后4位</td>
+									</tr>
+									
+									<tr>
+										<td rowspan="3">返回结果</td>
+										<td>success</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.user.check,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 0,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uid: 89sfo23joisjdof092jfs,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;userId: 10086,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nick: 测试用户,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;avatar: 10086_avatar.jpg,<br />
+												<br /> }
+											</p></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>error_1</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.user.check,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 用户不存在<br /> }
+											</p></td>
+										<td>请检查电话号码是否输入正确</td>
+									</tr>
+									<tr>
+										<td>error_1</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.user.check,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 2,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 密码输入错误<br /> }
+											</p></td>
+										<td>请检查密码是否输入正确</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						
+						<h3 id="user-get">com.h2c.user.get</h3>
+						<p style="text-indent:2em;">获取用户详细信息</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="3">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.user.getDetail</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									<tr>
+										<td>phone</td>
+										<td>18820797479</td>
+										<td>required</td>
+										<td>用户电话号码（本平台目前使用号码注册）</td>
+									</tr>
+									
+									<tr>
+										<td rowspan="2">返回结果</td>
+										<td>success</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.user.get,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 0,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;userId: 10086,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nick: 测试用户,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;avatar: 10086_avatar.jpg,<br />
+												<br /> }
+											</p></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>error_1</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.user.get,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 用户不存在<br /> }
+											</p></td>
+										<td>请检查电话号码是否输入正确</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						
+						<h3 id="user-update">com.h2c.user.update</h3>
+						<p style="text-indent:2em;">更新用户信息</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="9">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.user.update</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									<tr>
+										<td>userId</td>
+										<td>10086 | ...</td>
+										<td>required</td>
+										<td>用户ID</td>
+									</tr>
+									<tr>
+										<td>npass</td>
+										<td>******</td>
+										<td>optional</td>
+										<td>新密码</td>
+									</tr>
+									<tr>
+										<td>nnick</td>
+										<td>昵称</td>
+										<td>optional</td>
+										<td>新昵称</td>
+									</tr>
+									<tr>
+										<td>avatar</td>
+										<td>[CData]Img[/CData]</td>
+										<td>optional</td>
+										<td>头像文件</td>
+									</tr>
+									<tr>
+										<td>wifis</td>
+										<td>[{name:"dfwefws", lat:31.3423323, lng:120.43232312},...]</td>
+										<td>optional</td>
+										<td>所有WIFI记录</td>
+									</tr>
+									<tr>
+										<td>location</td>
+										<td>{address:"广州大学城中二横路22号", lat:31.3423323, lng:120.43232312}</td>
+										<td>optional</td>
+										<td>当前地理位置</td>
+									</tr>
+									<tr>
+										<td>wifiState</td>
+										<td>{ssid:"home2cloud", status:1(Connected | 2(Disconnected))}</td>
+										<td>optional</td>
+										<td>WIFI连接状态</td>
+									</tr>
+									
+									<tr>
+										<td rowspan="3">返回结果</td>
+										<td>success</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.user.update,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 0,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;avatar: 10_avatar.jpg（假如更新头像）<br />
+												<br /> }
+											</p></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>error_1</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.user.update,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: -1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 更新头像发生异常：Exception Message<br /> }
+											</p></td>
+										<td>请检查头像文件提交是否正确</td>
+									</tr>
+									<tr>
+										<td>error_1</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.user.update,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 用户不存在<br /> }
+											</p></td>
+										<td>请检查电话号码是否输入正确</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						
+						<h3 id="user-checkDb">com.h2c.user.checkDb&nbsp;&nbsp;&nbsp;(<b>GET</b>)</h3>
+						<p style="text-indent:2em;">获取用户数据文件信息</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="4">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.user.checkDb</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									<tr>
+										<td>userId</td>
+										<td>10086 | ...</td>
+										<td>required</td>
+										<td>用户ID</td>
+									</tr>
+									<tr>
+										<td>dbVer</td>
+										<td>1 | ...</td>
+										<td>optional</td>
+										<td>数据库版本，目前只用于Android</td>
+									</tr>
+									
+									<tr>
+										<td rowspan="6">返回结果</td>
+										<td>success</td>
+										<td colspan="3"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.user.checkDb,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 0,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meta: {<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;userId:"d7812885-2d1e-4933-9ea0-bbc02e41ed1c"<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lastSyncDate:"2014-09-28 17:40:55"<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filename:"d7812885-2d1e-4933-9ea0-bbc02e41ed1c.zip"<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dbVersion:"2"<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+												<br /> }
+											</p></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>error_-1</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.user.update,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: -1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: Exception Message<br /> }
+											</p></td>
+										<td>服务器发生异常</td>
+									</tr>
+									<tr>
+										<td>error_1</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.user.update,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 无数据库文件记录!<br /> }
+											</p></td>
+										<td>服务器无记录</td>
+									</tr>
+									<tr>
+										<td>error_2</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.user.update,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 2,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 服务器数据已过期!<br /> }
+											</p></td>
+										<td>参数包括dbVer，但是服务器数据记录无dbVer</td>
+									</tr>
+									<tr>
+										<td>error_3</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.user.update,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 3,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 数据文件记录版本不一致!<br /> }
+											</p></td>
+										<td>服务器数据库文件版本与请求版本不一致</td>
+									</tr>
+									<tr>
+										<td>error_4</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.user.update,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 4,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 该用户不存在!<br /> }
+											</p></td>
+										<td>请检查userId是否正确</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<h3 id="user-downloadDb">com.h2c.user.downloadDb&nbsp;&nbsp;&nbsp;(<b>GET</b>)</h3>
+						<p style="text-indent:2em;">下载用户数据文件</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="4">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.user.downloadDb</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									<tr>
+										<td>userId</td>
+										<td>10086 | ...</td>
+										<td>required</td>
+										<td>用户ID</td>
+									</tr>
+									<tr>
+										<td>dbVer</td>
+										<td>1 | 2 | ...</td>
+										<td>optional</td>
+										<td>数据库版本（目前在Android版本App中使用）</td>
+									</tr>
+									
+									<tr>
+										<td rowspan="3">返回结果</td>
+										<td>success</td>
+										<td colspan="2"><p>
+												Binary File
+											</p></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>error_-1</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.user.update,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: -1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: Exception Message<br /> }
+											</p></td>
+										<td>数据文件读取异常</td>
+									</tr>
+									<tr>
+										<td>error_1</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.user.update,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 数据文件不存在!<br /> }
+											</p></td>
+										<td>数据文件不存在</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<h3 id="user-uploadDb">com.h2c.user.uploadDb&nbsp;&nbsp;&nbsp;(<b>POST</b>)</h3>
+						<p style="text-indent:2em;">上传用户数据文件</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="6">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.user.uploadDb</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									<tr>
+										<td>userId</td>
+										<td>10086 | ...</td>
+										<td>required</td>
+										<td>用户ID</td>
+									</tr>
+									<tr>
+										<td>syncDate</td>
+										<td>2014-10-31 12:12:12</td>
+										<td>required</td>
+										<td>数据同步日期，与App一致，由App决定</td>
+									</tr>
+									<tr>
+										<td>dbVer</td>
+										<td>1 | 2 | ...</td>
+										<td>required</td>
+										<td>数据库版本（目前在Android版本App中使用）</td>
+									</tr>
+									<tr>
+										<td>file</td>
+										<td>Binary File</td>
+										<td>required</td>
+										<td>数据文件</td>
+									</tr>
+									
+									<tr>
+										<td rowspan="3">返回结果</td>
+										<td>success</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.user.uploadDb,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 0<br /> }
+											</p></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>error_1</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.user.uploadDb,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 文件不可为空!<br /> }
+											</p></td>
+										<td>file不可为空</td>
+									</tr>
+									<tr>
+										<td>error_2</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.user.update,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 2,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 该用户不存在!<br /> }
+											</p></td>
+										<td>请检查userId是否正确</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<h3 id="user-polling">com.h2c.user.polling&nbsp;&nbsp;&nbsp;(<b>GET</b>)</h3>
+						<p style="text-indent:2em;">长连接，拉取用户最新消息（目前为申请授权消息）</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="6">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.user.polling</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									<tr>
+										<td>userId</td>
+										<td>10086 | ...</td>
+										<td>required</td>
+										<td>用户ID</td>
+									</tr>
+									
+									<tr>
+										<td rowspan="3">返回结果</td>
+										<td>success</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.user.polling,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 0<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;news: [<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;userMessageId: 2<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;content: 内容<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;macAddress: 11:22:33:44:55:66<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br />
+												}
+											</p></td>
+										<td>有新的消息返回</td>
+									</tr>
+									<tr>
+										<td>success_1</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.user.polling,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 1<br />
+												}
+											</p></td>
+										<td>请求超时，没有新的消息</td>
+									</tr>
+									<tr>
+										<td>error_2</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.user.update,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 2,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 该用户不存在!<br /> }
+											</p></td>
+										<td>请检查userId是否正确</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						
+						<h1 id="scene" class="page-header">com.h2c.scene</h1>
+
+						<p class="lead" style="text-indent: 2em;">
+							情景计划，在满足条件的时候触发一系列动作
+						</p>
+						<p class="lead" style="text-indent: 2em;">
+							<b>URL:</b> <a>/scene/api</a>
+						</p>
+						<h3 id="scene-sync">com.h2c.scene.sync&nbsp;&nbsp;&nbsp;(<b>POST</b>)</h3>
+						<p style="text-indent:2em;">同步场景计划数据</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="5">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.scene.sync</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									<tr>
+										<td>info</td>
+										<td>{uid:"2sfw238sfaa", name:"scene", userId: 2, on:"true|false", invalid:"true|false"}</td>
+										<td>required</td>
+										<td>定时信息</td>
+									</tr>
+									<tr>
+										<td>conditions</td>
+										<td>[{name:"离家(home2cloud)距离100米", type:1(DISTANCE_AWAY)|2(DISTANCE_CLOSE)|3(WIFI), value:100(DISTANCE,米) | 1(CONNECTED | 2(DISCONNECTED)), wifiID:1}]</td>
+										<td>required</td>
+										<td>场景触发条件列表</td>
+									</tr>
+									<tr>
+										<td>actions</td>
+										<td>[{controllerMac:"11:22:33:44:55:66", name:"制冷,26", deviceName:"空调", delaySeconds:2, commandData:"21AD31..."}]</td>
+										<td>required</td>
+										<td>场景操作列表</td>
+									</tr>
+									
+									<tr>
+										<td rowspan="4">返回结果</td>
+										<td>success</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.scene.sync,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 0<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uid: wefoijoiwefqfwef<br />
+												}
+											</p></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>error_1</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.timer.sync,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 1<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 找不到用户记录<br />
+												}
+											</p></td>
+										<td>服务器找不到用户记录</td>
+									</tr>
+									<tr>
+										<td>error_2</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.timer.sync,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 2<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 找不到WIFI信息记录<br />
+												}
+											</p></td>
+										<td>服务器找不到用户的wifi记录</td>
+									</tr>
+									<tr>
+										<td>error_3</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.timer.sync,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 3<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 智能设备尚未连接到云端，无法创建场景计划<br />
+												}
+											</p></td>
+										<td>服务器找不到智能设备记录</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<h3 id="scene-execute">com.h2c.scene.execute&nbsp;&nbsp;&nbsp;(<b>POST</b>)</h3>
+						<p style="text-indent:2em;">立即执行场景计划</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="3">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.scene.execute</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									<tr>
+										<td>uid</td>
+										<td>2sdfjo19sdfae22sdfas</td>
+										<td>required</td>
+										<td>记录唯一串</td>
+									</tr>
+									
+									<tr>
+										<td rowspan="3">返回结果</td>
+										<td>success</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.scene.execute,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 0<br />}
+											</p></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>error_1</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.scene.execute,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 1<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 该场景未同步完成，请稍后重试<br />}
+											</p></td>
+										<td>找不到对应记录</td>
+									</tr>
+									<tr>
+										<td>error_2</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.scene.execute,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 2<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 智能设备已断开云端连接，无法执行场景计划<br />
+												}
+											</p></td>
+										<td>智能设备非云在线</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<h3 id="scene-remove">com.h2c.scene.remove&nbsp;&nbsp;&nbsp;(<b>POST</b>)</h3>
+						<p style="text-indent:2em;">删除场景计划</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="3">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.scene.remove</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									<tr>
+										<td>uid</td>
+										<td>2sdfjo19sdfae22sdfas</td>
+										<td>required</td>
+										<td>记录唯一串</td>
+									</tr>
+									
+									<tr>
+										<td >返回结果</td>
+										<td>success</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.scene.remove,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 0<br />}
+											</p></td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<h3 id="scene-list">com.h2c.scene.list&nbsp;&nbsp;&nbsp;(<b>POST</b>)</h3>
+						<p style="text-indent:2em;">同步场景计划列表，防止服务器记录与App不一致，这个接口应该在同步完所有记录之后调用，最为最后Checklist</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="4">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.scene.list</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									<tr>
+										<td>uids</td>
+										<td>2sdfjo19sdfae22sdfas,2sdfjo19sdfae22sdfas,...</td>
+										<td>required</td>
+										<td>UID列表</td>
+									</tr>
+									<tr>
+										<td>userId</td>
+										<td>10086 | ...</td>
+										<td>required</td>
+										<td>用户ID</td>
+									</tr>
+									
+									<tr>
+										<td >返回结果</td>
+										<td>success</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.scene.list,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 0<br />}
+											</p></td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<h3 id="scene-trace">com.h2c.scene.trace&nbsp;&nbsp;&nbsp;(<b>POST</b>)</h3>
+						<p style="text-indent:2em;">提交场景变化条件，服务器判断是否满足场景触发条件</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="5">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.scene.trace</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									<tr>
+										<td>userId</td>
+										<td>10086 | ...</td>
+										<td>required</td>
+										<td>用户ID</td>
+									</tr>
+									<tr>
+										<td>wifiState</td>
+										<td>{ssid:"home2cloud", status:1 | 2}</td>
+										<td>optional</td>
+										<td>WIFI连接状态</td>
+									</tr>
+									<tr>
+										<td>location</td>
+										<td>{address:"广州大学城", lat:31.4345423, lng:120.34523}</td>
+										<td>optional</td>	
+										<td>地理位置信息</td>
+									</tr>
+									<tr>
+										<td rowspan="3">返回结果</td>
+										<td>success</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.scene.trace,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 0<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uids: 89jsf2fsdfsfhg2,...<br />
+												}
+											</p></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>error_-1</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.scene.trace,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: -1<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 发生异常: Exception Message<br />
+												}
+											</p></td>
+										<td>请检查JSONObject格式是否正确</td>
+									</tr>
+									<tr>
+										<td>error_1</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.scene.trace,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 1<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 无此用户记录<br />
+												}
+											</p></td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<h1 id="timer" class="page-header">com.h2c.timer</h1>
+
+						<p class="lead" style="text-indent: 2em;">
+							定时接口，提供定时同步，定时执行等功能
+						</p>
+						<p class="lead" style="text-indent: 2em;">
+							<b>URL:</b> <a>/timer/api</a>
+						</p>
+						<h3 id="timer-sync">com.h2c.timer.sync&nbsp;&nbsp;&nbsp;(<b>POST</b>)</h3>
+						<p style="text-indent:2em;">同步定时计划数据</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="4">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.timer.sync</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									<tr>
+										<td>info</td>
+										<td>{uid:"2sfw238sfaa", name:"scene", userId: 2, tags:"每天", timerOn:"true|false", timerValue:"2014-10-31 12:12:12", timerRepeat:"1,2,3,4,5,6,7", invalid:"true|false"}</td>
+										<td>required</td>
+										<td>定时信息</td>
+									</tr>
+									<tr>
+										<td>actions</td>
+										<td>[{controllerMac:"11:22:33:44:55:66", name:"制冷,26", deviceName:"空调", delayHours:1, delayMinutes:1, delaySeconds:12, commandData:"21AD31..."}]</td>
+										<td>required</td>
+										<td>定时操作列表</td>
+									</tr>
+									
+									<tr>
+										<td rowspan="2">返回结果</td>
+										<td>success</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.timer.sync,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 0<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uid: wefoijoiwefqfwef<br />
+												}
+											</p></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>error_1</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.timer.sync,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 1<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 智能设备尚未连接到云端，无法创建定时计划<br />
+												}
+											</p></td>
+										<td>服务器找不到智能设备记录</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<h3 id="timer-execute">com.h2c.timer.execute&nbsp;&nbsp;&nbsp;(<b>POST</b>)</h3>
+						<p style="text-indent:2em;">立即执行定时计划</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="3">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.timer.execute</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									<tr>
+										<td>uid</td>
+										<td>2sdfjo19sdfae22sdfas</td>
+										<td>required</td>
+										<td>记录唯一串</td>
+									</tr>
+									
+									<tr>
+										<td rowspan="3">返回结果</td>
+										<td>success</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.timer.execute,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 0<br />}
+											</p></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>error-1</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.timer.execute,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 1<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 该定时未同步完成，请稍后重试<br />}
+											</p></td>
+										<td>找不到对应记录</td>
+									</tr>
+									<tr>
+										<td>error_1</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.timer.sync,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 1<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err_msg: 智能设备已断开云端连接，无法执行定时计划<br />
+												}
+											</p></td>
+										<td>智能设备非云在线</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<h3 id="timer-remove">com.h2c.timer.remove&nbsp;&nbsp;&nbsp;(<b>POST</b>)</h3>
+						<p style="text-indent:2em;">删除定时计划</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="3">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.timer.remove</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									<tr>
+										<td>uid</td>
+										<td>2sdfjo19sdfae22sdfas</td>
+										<td>required</td>
+										<td>记录唯一串</td>
+									</tr>
+									
+									<tr>
+										<td >返回结果</td>
+										<td>success</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.timer.remove,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 0<br />}
+											</p></td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<h3 id="timer-list">com.h2c.timer.list&nbsp;&nbsp;&nbsp;(<b>POST</b>)</h3>
+						<p style="text-indent:2em;">同步定时计划列表，防止服务器定时列表与App不一致，这个接口应该在同步完所有记录之后调用，最为最后Checklist</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="4">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.timer.list</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									<tr>
+										<td>uids</td>
+										<td>2sdfjo19sdfae22sdfas,2sdfjo19sdfae22sdfas,...</td>
+										<td>required</td>
+										<td>UID列表</td>
+									</tr>
+									<tr>
+										<td>userId</td>
+										<td>10086 | ...</td>
+										<td>required</td>
+										<td>用户ID</td>
+									</tr>
+									
+									<tr>
+										<td >返回结果</td>
+										<td>success</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.timer.list,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 0<br />}
+											</p></td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						
+						<h1 id="irlib" class="page-header">com.h2c.irlib</h1>
+
+						<p class="lead" style="text-indent: 2em;">
+							红外码云码下载接口
+						</p>
+						<p class="lead" style="text-indent: 2em;">
+							<b>URL:</b> <a>/irlib/api</a>
+						</p>
+						<h3 id="irlib-getAll">com.h2c.irlib.getAll&nbsp;&nbsp;&nbsp;(<b>GET</b>)</h3>
+						<p style="text-indent:2em;">获取所有码库列表，注意该接口目前没有做Token校验，也就是无需带Token参数</p>
+						<div class="panel panel-default" style="padding-left: 2em;">
+							<!-- Default panel contents -->
+							<!-- Table -->
+							<table class="table" style="border: 1px solid #ddd;">
+								<thead style="background: #eee;">
+									<tr>
+										<th width="10%"></th>
+										<th width="10%"></th>
+										<th width="30%"></th>
+										<th width="5%"></th>
+										<th width="40%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td rowspan="4">请求参数</td>
+										<td>name</td>
+										<td>com.h2c.irlib.getAll</td>
+										<td>required</td>
+										<td>接口名称</td>
+									</tr>
+									<tr>
+										<td>v</td>
+										<td>1</td>
+										<td>required</td>
+										<td>接口版本</td>
+									</tr>
+									
+									<tr>
+										<td>返回结果</td>
+										<td>success</td>
+										<td colspan="2"><p>
+												{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+												com.h2c.irlib.getAll,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v: 1,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: 0<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;keys: ["电视", "空调", "机顶盒", "风扇", "其他"],<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;panels: [1, 3, 1, 3],<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电视: [<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;libId: 12,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;companyName: "格力",<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;companyCode: "Gree",<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;controllerModel: "DOAF",<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;controllerType: 1 | 2 | 3 | ...,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;companyName: "格力",<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;panelType: 1 | 2 | ...,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;downloadedTimes: 23,<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;],<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br />
+												}
+											</p></td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+					</div>
+				</div>
+				<div class="span3">
+					<div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm"
+						role="complementary" style="top: 50px;">
+						<ul class="nav bs-docs-sidenav">
+							<li><a href="#app">com.h2c.app</a>
+								<ul class="nav">
+									<li><a href="#app-refreshToken">com.h2c.app.refreshToken</a></li>
+								</ul></li>
+							<li><a href="#homekit">com.h2c.homekit</a>
+								<ul class="nav">
+									<li><a href="#homekit-getCommand">com.h2c.homekit.getCommand</a></li>
+									<li><a href="#homekit-postCommand">com.h2c.homekit.postCommand</a></li>
+									<li><a href="#homekit-checkStatus">com.h2c.homekit.checkStatus</a></li>
+									<li><a href="#homekit-getDetail">com.h2c.homekit.getDetail</a></li>
+									<li><a href="#homekit-getUpdate">com.h2c.homekit.getUpdate</a></li>
+									<li><a href="#homekit-updateFirm">com.h2c.homekit.updateFirm</a></li>
+									<li><a href="#homekit-updateState">com.h2c.homekit.updateState</a></li>
+									<li><a href="#homekit-checkAuth">com.h2c.homekit.checkAuth</a></li>
+									<li><a href="#homekit-postAuth">com.h2c.homekit.postAuth</a></li>
+									<li><a href="#homekit-updateAuth">com.h2c.homekit.updateAuth</a></li>
+								</ul></li>
+							<li><a href="#user">com.h2c.user</a>
+								<ul class="nav">
+								<li><a href="#user-register">com.h2c.user.register</a></li>
+								<li><a href="#user-check">com.h2c.user.check</a></li>
+									<li><a href="#user-get">com.h2c.user.get</a></li>
+									<li><a href="#user-update">com.h2c.user.update</a></li>
+									<li><a href="#user-checkDb">com.h2c.user.checkDb</a></li>
+									<li><a href="#user-downloadDb">com.h2c.user.downloadDb</a></li>
+									<li><a href="#user-uploadDb">com.h2c.user.uploadDb</a></li>
+									<li><a href="#user-polling">com.h2c.user.polling</a></li>
+								</ul></li>
+							<li><a href="#scene">com.h2c.scene</a>
+								<ul class="nav">
+									<li><a href="#timer-sync">com.h2c.scene.sync</a></li>
+									<li><a href="#timer-execute">com.h2c.scene.execute</a></li>
+									<li><a href="#timer-delete">com.h2c.scene.remove</a></li>
+									<li><a href="#timer-list">com.h2c.scene.list</a></li>
+									<li><a href="#timer-trace">com.h2c.scene.trace</a></li>
+								</ul></li>
+							<li><a href="#timer">com.h2c.timer</a>
+								<ul class="nav">
+									<li><a href="#timer-sync">com.h2c.timer.sync</a></li>
+									<li><a href="#timer-execute">com.h2c.timer.execute</a></li>
+									<li><a href="#timer-delete">com.h2c.timer.remove</a></li>
+									<li><a href="#timer-list">com.h2c.timer.list</a></li>
+								</ul></li>
+							<li><a href="#irlib">com.h2c.irlib</a>
+								<ul class="nav">
+									<li><a href="#irlib-getAll">com.h2c.irlib.getAll</a></li>
+								</ul></li>
+						</ul>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!-- END PAGE -->
+
+	</div>
+
+	<!-- END CONTAINER -->
+	<!-- BEGIN FOOTER -->
+
+	<div th:replace="fragments/footer :: footer"></div>
+
+	<!-- END FOOTER -->
+
+	<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+
+	<!-- BEGIN CORE PLUGINS -->
+
+	<script th:src="@{/media/js/jquery-1.10.1.min.js}"
+		type="text/javascript"></script>
+
+	<script th:src="@{/media/js/bootstrap.min.js}" type="text/javascript"></script>
+
+	<script th:src="@{/media/js/docs.min.js}"></script>
+
+	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	<script th:src="@{/media/js/ie10-viewport-bug-workaround.js}"></script>
+
+
+	<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+
+</html>

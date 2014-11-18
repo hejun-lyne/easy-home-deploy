@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+
+<meta charset="utf-8" />
+
+<title>海图克 | 智能改造</title>
+
+<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+<meta content="智能遥控，手机遥控" name="description" />
+
+<meta content="hejun" name="author" />
+
+<!-- BEGIN GLOBAL MANDATORY STYLES -->
+
+<link th:href="@{/media/css/bootstrap.min.css}" rel="stylesheet"
+	type="text/css" />
+
+<link th:href="@{/media/css/bootstrap-responsive.min.css}"
+	rel="stylesheet" type="text/css" />
+
+<link th:href="@{/media/css/font-awesome.min.css}" rel="stylesheet"
+	type="text/css" />
+
+<link th:href="@{/media/css/h-style.css}" rel="stylesheet"
+	type="text/css" />
+
+<link th:href="@{/media/css/style-metro.css}" rel="stylesheet"
+	type="text/css" />
+
+<link th:href="@{/media/css/style-responsive.css}" rel="stylesheet"
+	type="text/css" />
+
+<link th:href="@{/media/css/default.css}" rel="stylesheet"
+	type="text/css" id="style_color" />
+
+<link th:href="@{/media/css/uniform.default.css}" rel="stylesheet"
+	type="text/css" />
+
+<!-- END GLOBAL MANDATORY STYLES -->
+
+<link th:href="@{/media/css/promo.css}" rel="stylesheet" type="text/css" />
+
+<link th:href="@{/media/css/animate.css}" rel="stylesheet"
+	type="text/css" />
+
+<link rel="shortcut icon" th:href="@{/media/image/favicon.ico}" />
+
+</head>
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+
+<body class="page-header-fixed page-full-width">
+
+	<!-- BEGIN HEADER -->
+
+	<div class="header navbar navbar-inverse navbar-fixed-top"
+		style="background-color: #fff; border-bottom: 1px solid rgba(0, 0, 0, 0.15);">
+
+		<!-- BEGIN TOP NAVIGATION BAR -->
+
+		<div>
+
+			<div class="container-fluid" style="max-width: 1000px; margin: auto;">
+
+				<!-- BEGIN LOGO -->
+
+				<a class="brand" th:href="@{/}" style="padding: 0;"> <img
+					th:src="@{/images/logo.jpg}" alt="logo" style="height: 40px;" />
+
+				</a>
+
+				<!-- END LOGO -->
+
+				<!-- BEGIN HORIZANTAL MENU -->
+
+				<div class="navbar hor-menu hidden-phone hidden-tablet">
+
+					<div class="navbar-inner"
+						style="background-color: #fff !important;">
+
+						<ul class="nav">
+
+							<li><a th:href="@{/index.html}"> 首页 </a></li>
+							<li ><a th:href="@{/irbox.html}"> 智能遥控 </a></li>
+							<li class="active"><a href="#"> 智能改造 </a></li>
+							<li><a th:href="@{/cases.html}"> 工程案例 </a></li>
+							<li><a th:href="@{/about.html}"> 关于我们 </a></li>
+							<li><a th:href="@{/app.html}"> 云智家｜下载 </a></li>
+
+						</ul>
+
+					</div>
+
+				</div>
+
+				<!-- END HORIZANTAL MENU -->
+
+				<!-- BEGIN RESPONSIVE MENU TOGGLER -->
+
+				<a href="javascript:;" class="btn-navbar collapsed"
+					data-toggle="collapse" data-target=".nav-collapse"> <img
+					th:src="@{/media/image/menu-toggler.png}" alt="" />
+
+				</a>
+
+				<!-- END RESPONSIVE MENU TOGGLER -->
+
+			</div>
+
+		</div>
+
+		<!-- END TOP NAVIGATION BAR -->
+
+	</div>
+
+	<!-- END HEADER -->
+	<!-- BEGIN CONTAINER -->
+
+	<div class="page-container row-fluid">
+
+		<!-- BEGIN PAGE -->
+
+		<div class="page-content">
+
+			<div class="container-fluid">
+
+				<!-- BEGIN PAGE CONTENT-->
+
+				<div class="row-fluid">
+
+						<div class="container"
+							style="max-width: 1000px; margin: auto; color: grey; padding-top: 60px; padding-bottom: 60px;border-bottom: 1px solid rgba(0, 0, 0, 0.15);">
+							<div class="span6" >
+								<img th:src="@{/images/building_1.jpg}" alt="" />
+							</div>
+							<div class="span6" >
+
+								<h3 style="color:#07d7fc;text-align:center;">家庭环境</h3>
+								<p style="font-size:1.2em; line-height: 2em;text-indent:2em;">
+									<span style="color:#e74c3c;">智能灯光控制：</span>智能调节灯光颜色、亮度，制造多种灯光效果，设置不同的家居场景。
+									<span style="color:#e74c3c;">家电控制：</span>空调、电视、冰箱等家电集中管理控制，实时掌握家电使用情况。
+									<span style="color:#e74c3c;">安防报警：</span>网络视频远程监控，门窗异动检测，红外探测，烟感探测，紧急按钮。
+									<span style="color:#e74c3c;">室内检测：</span>室内空气质量（包括温湿度、二氧化碳、PM2.5）的全面监测及与空调、空气净化器、加湿器联动控制，以提供宜居、舒适的生活空间。
+									<span style="color:#e74c3c;">远程控制：</span>基于平板或智能手机实现对家的远程管理和控制。
+								</p>
+							</div>
+						</div>
+
+
+				</div>
+				<div class="row-fluid">
+
+						<div class="container"
+							style="max-width: 1000px; margin: auto; color: grey; padding-top: 60px; padding-bottom: 60px;border-bottom: 1px solid rgba(0, 0, 0, 0.15);">
+							<div class="span6" >
+								<h3 style="color:#07d7fc;text-align:center;">酒店环境</h3>
+								<p style="font-size:1.2em; line-height: 2em;text-indent:2em;">
+									在智能灯光控制、家电控制、安防报警、室内检测、远程控制之外，还增加
+									<span style="color:#e74c3c;">背景音乐控制：</span>酒店大堂、宴会厅、客房、酒店花园等分区域音乐控制，营造良好音乐氛围。
+								</p>
+							</div>
+							<div class="span6" >
+								<img th:src="@{/images/building_2.jpg}" alt="" />
+							</div>
+						</div>
+
+
+				</div>
+				<div class="row-fluid">
+
+						<div class="container"
+							style="max-width: 1000px; margin: auto; color: grey; padding-top: 60px; padding-bottom: 60px;border-bottom: 1px solid rgba(0, 0, 0, 0.15);">
+							<div class="span6" >
+								<img th:src="@{/images/building_3.jpg}" alt="" />
+							</div>
+							<div class="span6" >
+								<h3 style="color:#07d7fc;text-align:center;">别墅改造</h3>
+								<p style="font-size:1.2em; line-height: 2em;text-indent:2em;">
+									在智能灯光控制、家电控制、安防报警、室内检测、远程控制、背景音乐控制之外，还增加
+									<span style="color:#e74c3c;">家庭影院：</span>一键开启家庭影院模式，将灯光、空调、电视、音响，投影仪调到观影模式，轻松享受高清大片。
+									<span style="color:#e74c3c;">花园浇灌：</span>定时或远程控制灌溉系统的开启和关闭。
+								</p>
+							</div>
+						</div>
+
+
+				</div>
+				<div class="row-fluid">
+
+						<div class="container"
+							style="max-width: 1000px; margin: auto; color: grey; padding-top: 60px; padding-bottom: 60px;border-bottom: 1px solid rgba(0, 0, 0, 0.15);">
+							<div class="span6" >
+								<h3 style="color:#07d7fc;text-align:center;">办公环境</h3>
+								<p style="font-size:1.2em; line-height: 2em;text-indent:2em;">
+									<span style="color:#e74c3c;">照明控制：</span>使用手机、平板等移动终端本地/远程控制办公室照明，可设置定时开关。
+									<span style="color:#e74c3c;">窗帘控制：</span>通过手机、平板或控制器开关控制窗帘的启闭。
+									<span style="color:#e74c3c;">空调控制：</span>应用智能遥控，通过手机或平板智能本地/远程控制空调。
+									<span style="color:#e74c3c;">智能感应控制：</span>进入办公室，自动开灯，无人时，自动关灯；自动检测环境光照，自动开灯或开启窗帘。
+									<span style="color:#e74c3c;">智能门禁：</span>考勤与安防一体，智能识别（指纹、人脸、智能卡等）多种开门方式，门锁异动报警功能。
+									<span style="color:#e74c3c;">一键工作模式：</span>一键开启办公室照明、空调等设备。
+								</p>
+							</div>
+							<div class="span6" >
+								<img th:src="@{/images/building_4.jpg}" alt="" />
+							</div>
+						</div>
+
+
+				</div>
+				<div class="row-fluid">
+
+						<div class="container"
+							style="max-width: 1000px; margin: auto; color: grey; padding-top: 60px; padding-bottom: 60px;border-bottom: 1px solid rgba(0, 0, 0, 0.15);">
+							<div class="span6" >
+								<img th:src="@{/images/building_5.jpg}" alt="" />
+							</div>
+							<div class="span6" >
+								<h3 style="color:#07d7fc;text-align:center;">会议室</h3>
+								<p style="font-size:1.2em; line-height: 2em;text-indent:2em;">
+									<span style="color:#e74c3c;">无线无源开关：</span>无需布线，实现对照明、窗帘及会议设备的开关控制。
+									<span style="color:#e74c3c;">室内检测：</span>室内空气质量（包括温湿度、二氧化碳、PM2.5）的全面监测及与空调、空气净化器、加湿器联动控制，以提供舒适的会场空间。
+									<span style="color:#e74c3c;">一键会议模式：</span>一键开启会场照明、空调、投影等设备，立即进入会议环境。
+									<span style="color:#e74c3c;">智能感应控制：</span>采用人体感应、温湿度检测、亮度检测等传感技术，自动控制照明、空调等系统的启闭。
+									<span style="color:#e74c3c;">远程控制：</span>基于智能终端（平板或智能手机）实现对会场灯光、设备进行远程控制。
+								</p>
+							</div>
+						</div>
+
+
+				</div>
+				<div class="row-fluid">
+
+						<div class="container"
+							style="max-width: 1000px; margin: auto; color: grey; padding-top: 60px; padding-bottom: 60px;">
+							<div class="span6" >
+								<h3 style="color:#07d7fc;text-align:center;">医院病房</h3>
+								<p style="font-size:1.2em; line-height: 2em;text-indent:2em;">
+									<span style="color:#e74c3c;">环境监测：</span>实时监测病房温湿度，病房空气质量等，病人或家属可以通过微信查看病房环境，家属可以随时关注病人情况。
+									<span style="color:#e74c3c;">设备控制：</span>采用无线开关，支持微信等手机软件控制，病人不下床也能够通过手机控制病房灯光、窗帘、空调，甚至遥控电视。
+									<span style="color:#e74c3c;">病房呼叫：</span>为病人配备随身携带呼叫仪，有紧急情况时可直接呼叫。
+									<span style="color:#e74c3c;">信息推送：</span>医护系统自动将病人的状态信息直接推送至家属手机，让家属及时了解病人状况。
+									<span style="color:#e74c3c;">背景音乐：</span>定时播放音乐，调节病人情绪。
+								</p>
+							</div>
+							<div class="span6" >
+								<img th:src="@{/images/building_6.jpg}" alt="" />
+							</div>
+						</div>
+
+
+				</div>
+
+				<!-- END PAGE CONTENT-->
+
+			</div>
+
+			<!-- END PAGE CONTAINER-->
+
+		</div>
+
+		<!-- END PAGE -->
+
+	</div>
+
+	<!-- END CONTAINER -->
+	<!-- BEGIN FOOTER -->
+
+	<div class="footer" style="background: #ebebeb;border-top: 1px solid rgba(0, 0, 0, 0.15);">
+
+		<div class="footer-inner" style="width: 100%;">
+
+			<div class="row-fluid" style="padding-top:20px;padding-left:10px;padding-bottom: 10px;max-width: 1000px;margin: auto;">
+				<div class="span4">
+
+					<h4 style="color:#666;">广州海图克计算机技术有限公司</h4>
+					<a target="_blank" href="http://shop112668798.taobao.com/index.htm"><img th:src="@{/images/taobao.png}" alt="" style="width:36px;"/></a>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<a target="_blank" href="http://weibo.com/u/5276959999"><img th:src="@{/images/weibo.png}" alt="" style="width:36px;"/></a>
+					<br />
+					<p style="line-height:2em;margin-top:1em;font-size:1.2em;">
+						<b>联系电话：</b>020-31076961<br />
+						<b>电子邮箱：</b>support@haituke.com<br />
+						<b>地址：</b>广州大学城中二横路22号A913<br />
+					</p>
+				</div>
+				<div class="span4" style="text-align: left">
+
+							<h4 style="color:#666;">关于我们</h4>
+							<p style="line-height:2em;margin-top:1em;font-size:1.2em;">
+								<a th:href="@{/join.html}" style="color:grey !important">人才招聘</a><br />
+								<a th:href="@{/contact.html}" style="color:grey !important">联系我们</a><br />
+							</p>
+						</div>
+				<div class="span4" style="text-align: center">
+					<div class="row-fluid">
+						<div class="span6" style="text-align: center">
+							<h4 style="color:#666;">关注海图克</h4>
+							<img th:src="@{/images/weixin_qr.jpg}" alt="" style="width:100px;"/>
+						</div>
+						<div class="span6" style="text-align: center">
+							<h4 style="color:#666;">下载云智家</h4>
+							<img th:src="@{/images/qr.jpg}" alt="" style="width:100px;"/>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+
+		<div class="footer-tools">
+
+			<span class="go-top"> <i class="icon-angle-up"></i>
+
+			</span>
+
+		</div>
+		<div style="clear: both;"></div>
+		<p style="text-align: center; color: #999">
+			2014 &copy; www.haituke.com | <a href="privacy.html">用户隐私政策</a>
+		</p>
+	</div>
+
+	<!-- END FOOTER -->
+
+	<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+
+	<!-- BEGIN CORE PLUGINS -->
+
+	<script th:src="@{/media/js/jquery-1.10.1.min.js}"
+		type="text/javascript"></script>
+
+	<script th:src="@{/media/js/jquery-migrate-1.2.1.min.js}"
+		type="text/javascript"></script>
+
+	<!-- IMPORTANT! Load jquery-ui-1.10.1.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+
+	<script th:src="@{/media/js/jquery-ui-1.10.1.custom.min.js}"
+		type="text/javascript"></script>
+
+	<script th:src="@{/media/js/bootstrap.min.js}" type="text/javascript"></script>
+
+	<!--[if lt IE 9]>
+
+	<script src="media/js/excanvas.min.js"></script>
+
+	<script src="media/js/respond.min.js"></script>  
+
+	<![endif]-->
+
+	<script th:src="@{/media/js/jquery.slimscroll.min.js}"
+		type="text/javascript"></script>
+
+	<script th:src="@{/media/js/jquery.blockui.min.js}"
+		type="text/javascript"></script>
+
+	<script th:src="@{/media/js/jquery.cookie.min.js}"
+		type="text/javascript"></script>
+
+	<script th:src="@{/media/js/jquery.uniform.min.js}"
+		type="text/javascript"></script>
+
+	<!-- END CORE PLUGINS -->
+
+	<script th:src="@{/media/js/app.js}"></script>
+
+	<script>
+		jQuery(document).ready(function() {
+
+			App.init();
+
+		});
+	</script>
+
+	<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+
+</html>

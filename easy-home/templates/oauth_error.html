@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8" />
+<title>Insert title here</title>
+</head>
+<body>
+<div class="container">
+
+		<h1>Sparklr OAuth2 Error</h1>
+
+		<p>
+			<span th:text="${message}" />
+			(
+			<span th:text="${error.summary}" />
+			)
+		</p>
+		<p>Please go back to your client application and try again, or
+			contact the owner and ask for support</p>
+
+		<div class="footer">
+			Sample application for <a
+				href="http://github.com/spring-projects/spring-security-oauth"
+				target="_blank">Spring Security OAuth</a>
+		</div>
+
+
+	</div>
+</body>
+</html>

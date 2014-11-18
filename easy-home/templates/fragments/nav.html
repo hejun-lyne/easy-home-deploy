@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+  <head>
+  </head>
+  <body>
+    <div class="header navbar navbar-inverse navbar-fixed-top" th:fragment="nav (current, sub)">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<a class="brand" th:href="@{/admin/index}"> <img
+					th:src="@{/media/image/logo.png}" alt="logo" />
+				</a>
+				<div class="navbar hor-menu hidden-phone hidden-tablet">
+					<div class="navbar-inner">
+						<ul class="nav">
+							<li class="visible-phone visible-tablet">
+								<!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
+								<form class="sidebar-search">
+									<div class="input-box">
+										<a href="javascript:;" class="remove"></a> <input type="text"
+											placeholder="Search..." /> <input type="button"
+											class="submit" value=" " />
+									</div>
+								</form> <!-- END RESPONSIVE QUICK SEARCH FORM -->
+
+							</li>
+							<li th:class="${current} == 'index'? 'active' : ''">
+								<a th:href="@{/admin/index}"> 
+									Dashboard <span th:class="${current} == 'index'? 'selected' : ''"></span>
+								</a>
+								
+							</li>
+							<li th:class="${current} == 'irbox'? 'active' : ''">
+								<a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
+									智能遥控 <span class="arrow" ></span>
+									<span th:class="${current} == 'irbox'? 'selected' : ''"></span>
+								</a>
+								<ul class="dropdown-menu">
+									<li th:class="${sub} == 'irboxlist'? 'active' : ''"><a th:href="@{/admin/irbox}"> 信息查看 </a></li>
+									<li th:class="${sub} == 'irboxfirmware'? 'active' : ''"><a th:href="@{/admin/irbox-firmware}"> 固件管理 </a></li>
+								</ul> <b class="caret-out"></b>
+							</li>
+							<li th:class="${current} == 'airbox'? 'active' : ''">
+								<a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
+									空气盒子 <span class="arrow" ></span>
+									<span th:class="${current} == 'airbox'? 'selected' : ''"></span>
+								</a>
+								<ul class="dropdown-menu">
+									<li th:class="${sub} == 'airboxlist'? 'active' : ''"><a th:href="@{/admin/airbox}"> 信息查看 </a></li>
+									<li th:class="${sub} == 'airboxfirmware'? 'active' : ''"><a th:href="@{/admin/airbox-firmware}"> 固件管理 </a></li>
+								</ul> <b class="caret-out"></b>
+							</li>
+							<li th:class="${current} == 'user'? 'active' : ''">
+								<a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
+									用户 <span class="arrow"></span>
+									<span th:class="${current} == 'user'? 'selected' : ''"></span>
+								</a>
+								<ul class="dropdown-menu">
+									<li th:class="${sub} == 'userlist'? 'active' : ''"><a th:href="@{/admin/user}"> 信息查看 </a></li>
+									<li th:class="${sub} == 'usermessage'? 'active' : ''"><a th:href="@{/admin/user-message}"> 消息查看 </a></li>
+								</ul> <b class="caret-out"></b>
+							</li>
+							<li th:class="${current} == 'irlibrary'? 'active' : ''"><a th:href="@{/admin/ir-library}">云码 <span th:class="${current} == 'irlibrary'? 'selected' : ''"></span></a></li>
+							<li th:class="${current} == 'timer'? 'active' : ''"><a th:href="@{/admin/timer}"> 定时 <span th:class="${current} == 'timer'? 'selected' : ''"></span></a></li>
+							<li th:class="${current} == 'scene'? 'active' : ''"><a th:href="@{/admin/scene}"> 情景 <span th:class="${current} == 'scene'? 'selected' : ''"></span></a></li>
+							<li th:class="${current} == 'config'? 'active' : ''"><a th:href="@{/admin/config}"> 配置 <span th:class="${current} == 'config'? 'selected' : ''"></span></a></li>
+							<li th:class="${current} == 'log'? 'active' : ''"><a th:href="@{/admin/log}"> 日志 <span th:class="${current} == 'log'? 'selected' : ''"></span></a></li>
+							<li th:class="${current} == 'doc'? 'active' : ''"><a th:href="@{/admin/doc}"> 文档 <span th:class="${current} == 'doc'? 'selected' : ''"></span></a></li>
+
+							<li><span class="hor-menu-search-form-toggler">&nbsp;</span>
+								<div class="search-form hidden-phone hidden-tablet">
+									<form class="form-search">
+										<div class="input-append">
+											<input type="text" placeholder="Search..." class="m-wrap" />
+											<button type="button" class="btn"></button>
+										</div>
+									</form>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<!-- END HORIZANTAL MENU -->
+
+				<!-- BEGIN RESPONSIVE MENU TOGGLER -->
+
+				<a href="javascript:;" class="btn-navbar collapsed"
+					data-toggle="collapse" data-target=".nav-collapse"> <img
+					th:src="@{/media/image/menu-toggler.png}" alt="" />
+
+				</a>
+
+				<!-- END RESPONSIVE MENU TOGGLER -->
+
+				<!-- BEGIN TOP NAVIGATION MENU -->
+
+				<ul class="nav pull-right">
+
+					<!-- BEGIN USER LOGIN DROPDOWN -->
+
+					<li class="dropdown user"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown"> <img alt=""
+							th:src="@{/media/image/avatar1_small.jpg}" /> <span
+							class="username" th:text="${#authentication.name}"></span> <i
+							class="icon-angle-down"></i>
+
+					</a>
+
+						<ul class="dropdown-menu">
+							<li><a th:href="@{/user/profile}"><i class="icon-user"></i>
+									账号信息</a></li>
+
+							<li class="divider"></li>
+
+							<li><a href="javascript:$('#logout-form').submit()"><i
+									class="icon-key"></i> 注销</a>
+								<form id="logout-form" method="post" th:action="@{/logout.do}"
+									style="display: hidden"></form></li>
+						</ul></li>
+
+					<!-- END USER LOGIN DROPDOWN -->
+
+				</ul>
+
+				<!-- END TOP NAVIGATION MENU -->
+
+			</div>
+
+		</div>
+		<!-- END TOP NAVIGATION BAR -->
+	</div>
+	
+	<div class="page-sidebar nav-collapse collapse visible-phone visible-tablet" th:fragment="sidebar (current)">
+			<ul class="page-sidebar-menu">
+				<li class="visible-phone visible-tablet">
+					<!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
+					<form class="sidebar-search">
+						<div class="input-box">
+							<a href="javascript:;" class="remove"></a> <input type="text"
+								placeholder="Search..." /> <input type="button" class="submit"
+								value=" " />
+						</div>
+					</form> <!-- END RESPONSIVE QUICK SEARCH FORM -->
+				</li>
+
+				<li th:class="${current} == 'index'? 'active' : ''"><a th:href="@{/admin/index}"> Dashboard </a></li>
+				<li th:class="${current} == 'irbox'? 'active' : ''">
+					<a href="javascript:;"> 智能遥控 <span class="arrow"></span>
+					</a>
+					<ul class="sub-menu">
+						<li th:class="${sub} == 'irboxlist'? 'active' : ''"><a th:href="@{/admin/irbox}">信息查看</a></li>
+						<li th:class="${sub} == 'irboxfirmware'? 'active' : ''"><a th:href="@{/admin/irbox-firmware}">固件管理</a></li>
+					</ul>
+				</li>
+				<li th:class="${current} == 'airbox'? 'active' : ''">
+					<a href="javascript:;"> 空气盒子 <span class="arrow"></span>
+					</a>
+					<ul class="sub-menu">
+						<li th:class="${sub} == 'airboxlist'? 'active' : ''"><a class="active" th:href="@{/admin/airbox}">信息查看</a></li>
+						<li th:class="${sub} == 'airboxfirmware'? 'active' : ''"><a th:href="@{/admin/airbox-firmware}">固件管理</a></li>
+					</ul>
+				</li>
+
+				<li th:class="${current} == 'user'? 'active' : ''">
+					<a href="javascript:;"> 用户 <span class="arrow"></span>
+					</a>
+					<ul class="sub-menu">
+						<li th:class="${sub} == 'userlist'? 'active' : ''"><a th:href="@{/admin/user}">信息查看</a></li>
+						<li th:class="${sub} == 'usermessage'? 'active' : ''"><a th:href="@{/admin/user-message}">所有消息</a></li>
+					</ul>
+				</li>
+
+				<li th:class="${current} == 'irlibrary'? 'active' : ''"><a th:href="@{/admin/ir-library}"> 云码 </a></li>
+				<li th:class="${current} == 'timer'? 'active' : ''"><a th:href="@{/admin/timer}"> 定时 </a></li>
+				<li th:class="${current} == 'scene'? 'active' : ''"><a th:href="@{/admin/scene}"> 情景 </a></li>
+				<li th:class="${current} == 'config'? 'active' : ''"><a th:href="@{/admin/config}"> 配置</a></li>
+				<li th:class="${current} == 'log'? 'active' : ''"><a  th:href="@{/admin/log}"> 日志 </a></li>
+				<li th:class="${current} == 'doc'? 'active' : ''"><a  th:href="@{/admin/doc}"> 文档 </a></li>
+
+			</ul>
+
+		</div>
+  </body>
+</html>
